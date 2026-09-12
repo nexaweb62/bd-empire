@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const produits = [
+  { title: 'Coque BD EMPIRES', price: '20,00 €' },
+  { title: 'FORMATION BD EMPIRES', price: '150,00 €', oldPrice: '280,00 €', badge: 'Promotion' },
+  { title: 'Legging Nike taille haute (ZENVY)', price: '65,00 €' },
+  { title: 'Leggings Nike One', price: '55,00 €' },
+  { title: 'Mitzuno Wave Prophecy LS', price: '250,00 €' },
+  { title: 'Nike Aeroswift Therma-Fit ADV', price: '220,00 €' },
+  { title: 'Nike Air Max Plus (Black)', price: '170,00 €' },
+  { title: 'Nike Air Max Plus (Blue Obsidienne)', price: '220,00 €' },
+  { title: 'Nike Air Max Plus VII 7 Black', price: '170,00 €' },
+  { title: 'Nike Pegasus Premium (Anthracite Metallic Silver)', price: '210,00 €' },
+  { title: 'Nike Pegasus Premium (Anthracite/Platine)', price: '190,00 €' },
+  { title: 'Nike Pegasus Premium (Barely Green)', price: '200,00 €' },
+];
+---
+<BaseLayout title="Catalogue — BD EMPIRES" description="Tous les articles BD EMPIRES : vêtements, sneakers et accessoires.">
+<style>
+.cat-hero{padding:40px 0 0}
+.cat-hero h1{font-size:clamp(1.8rem,3vw,2.4rem)}
+.filter-bar{display:flex;align-items:center;justify-content:space-between;padding:26px 0;border-bottom:1px solid var(--border);margin-top:24px}
+.filter-left,.filter-right{display:flex;align-items:center;gap:22px}
+.filter-btn{display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:500;background:none;border:none;cursor:pointer;color:var(--text)}
+.filter-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.filter-count{font-size:.8rem;color:var(--text-muted)}
+.view-toggle{display:flex;gap:8px}
+.view-toggle button{background:none;border:none;cursor:pointer;color:var(--text-muted);padding:2px}
+.view-toggle button.active{color:var(--text)}
+.view-toggle svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.6}
+.cat-grid-wrap{padding:36px 0 100px}
+.p-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:22px 20px}
+@media(max-width:1100px){.p-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.p-grid{grid-template-columns:repeat(2,1fr)}.filter-left{gap:14px}.filter-right{gap:14px}}
+</style>
+<Header />
+<main>
+  <section class="cat-hero">
+    <div class="wrap">
+      <span class="label">Boutique</span>
+      <h1 style="margin-top:10px">Catalogue</h1>
+
+      <div class="filter-bar">
+        <div class="filter-left">
+          <button type="button" class="filter-btn">Disponibilité <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <button type="button" class="filter-btn">Prix <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+        </div>
+        <div class="filter-right">
+          <span class="filter-count">{produits.length} articles</span>
+          <button type="button" class="filter-btn">Trier <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="view-toggle">
+            <button type="button" class="active" aria-label="Vue grille">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button type="button" aria-label="Vue liste">
+              <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cat-grid-wrap">
+    <div class="wrap">
+      <div class="p-grid">
+        {produits.map((p) => <ProductCard {...p} />)}
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

@@ -3,16 +3,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 ---
-<BaseLayout title="Contact — BD Empire" description="Contactez l'équipe BD Empire.">
+<BaseLayout title="Contact — BD EMPIRES" description="Contactez l'équipe BD EMPIRES.">
 <style>
-.contact-page{padding:calc(var(--hdr) + 60px) 0 100px}
+.contact-page{padding:60px 0 100px}
 .contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:56px}
-.contact-layout h1{font-size:clamp(2rem,4vw,3rem)}
+.contact-layout h1{font-size:clamp(2rem,4vw,2.8rem)}
 .contact-layout p{color:var(--text-muted);margin-top:16px;line-height:1.6;max-width:420px}
 .form{padding:30px}
 .field{margin-bottom:18px}
-.field label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:8px}
-.field input,.field textarea{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:.9rem}
+.field label{display:block;font-size:.76rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:8px}
+.field input,.field textarea{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.9rem}
 .field textarea{resize:vertical;min-height:120px}
 @media(max-width:820px){.contact-layout{grid-template-columns:1fr}}
 </style>
@@ -22,8 +22,8 @@ import Footer from '../components/Footer.astro';
     <div class="wrap contact-layout">
       <div>
         <span class="label">Contact</span>
-        <h1 style="margin-top:14px">Une question,<br>une commande spéciale ?</h1>
-        <p>Notre équipe vous répond sous 24h ouvrées. Pour un titre en rupture ou une précommande, précisez-le dans votre message.</p>
+        <h1 class="display" style="margin-top:14px">Une question,<br>une commande spéciale ?</h1>
+        <p>Notre équipe vous répond sous 24h ouvrées. Pour un article en rupture ou une précommande, précisez-le dans votre message.</p>
       </div>
       <form class="card form">
         <div class="field">
@@ -38,7 +38,7 @@ import Footer from '../components/Footer.astro';
           <label for="message">Message</label>
           <textarea id="message" placeholder="Votre message..."></textarea>
         </div>
-        <button type="submit" class="btn" style="width:100%;justify-content:center">Envoyer</button>
+        <button type="submit" class="btn" style="width:100%">Envoyer</button>
       </form>
     </div>
   </section>

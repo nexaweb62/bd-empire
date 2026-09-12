@@ -5,31 +5,30 @@ import Footer from '../components/Footer.astro';
 import ProductCard from '../components/ProductCard.astro';
 
 const similaires = [
-  { title: 'Rivage Noir T.4', author: 'S. Dubois', price: '14,50 €', category: 'Franco-belge' },
-  { title: 'La Ronde des Saisons', author: 'P. Fabre', price: '16,20 €', category: 'Franco-belge' },
-  { title: 'Le Dernier Phare', author: 'C. Lenoir', price: '18,00 €', category: 'Franco-belge' },
+  { title: 'Nike Air Max Plus (Black)', price: '170,00 €' },
+  { title: 'Nike Air Max Plus VII 7 Black', price: '170,00 €' },
+  { title: 'Nike Pegasus Premium (Barely Green)', price: '200,00 €' },
 ];
 ---
-<BaseLayout title="Les Naufragés de l'Empire — BD Empire" description="Fiche produit exemple pour la maquette BD Empire.">
+<BaseLayout title="Nike Aeroswift Therma-Fit ADV — BD EMPIRES" description="Fiche produit exemple pour la maquette BD EMPIRES.">
 <style>
-.p-page{padding:calc(var(--hdr) + 50px) 0 100px}
-.p-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:start}
-.p-cover-lg{aspect-ratio:3/4;background:linear-gradient(155deg,var(--panel),hsl(240 10% 10%));border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.85rem;text-transform:uppercase;letter-spacing:.08em}
-.p-cat{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
-.p-title{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-top:10px}
-.p-author{color:var(--text-muted);margin-top:8px;font-size:.95rem}
-.p-price-row{display:flex;align-items:center;gap:18px;margin-top:26px}
-.p-price{font-size:1.8rem;font-weight:900}
-.p-stock{font-size:.8rem;color:#7fd88f;font-weight:700}
-.p-desc{margin-top:26px;color:var(--text-muted);line-height:1.75;font-size:.95rem;max-width:520px}
-.p-qty{display:flex;align-items:center;gap:14px;margin-top:30px}
-.qty-box{display:flex;align-items:center;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.qty-box button{width:38px;height:42px;background:transparent;border:none;color:var(--text);font-size:1.1rem;cursor:pointer}
-.qty-box span{width:36px;text-align:center;font-weight:700}
-.p-actions{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.p-page{padding:50px 0 100px}
+.p-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start}
+.p-cover-lg{aspect-ratio:1/1;background:var(--panel)}
+.p-title{font-size:clamp(1.6rem,2.8vw,2.1rem);margin-top:14px}
+.p-price-row{display:flex;align-items:center;gap:14px;margin-top:20px}
+.p-price{font-size:1.3rem;font-weight:600}
+.p-stock{font-size:.78rem;color:#3f7a4d;font-weight:600}
+.p-desc{margin-top:24px;color:var(--text-muted);line-height:1.75;font-size:.92rem;max-width:480px}
+.p-qty{display:flex;align-items:center;gap:14px;margin-top:28px}
+.qty-box{display:flex;align-items:center;border:1px solid var(--border)}
+.qty-box button{width:36px;height:40px;background:transparent;border:none;color:var(--text);font-size:1rem;cursor:pointer}
+.qty-box span{width:32px;text-align:center;font-weight:600;font-size:.9rem}
+.p-actions{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap}
+.p-actions .btn,.p-actions .btn-outline{flex:1;min-width:180px}
 .related{padding:70px 0 100px;border-top:1px solid var(--border)}
-.related h2{font-size:1.5rem;margin-bottom:24px}
-.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.related h2{font-size:1.4rem;margin-bottom:26px}
+.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 @media(max-width:820px){.p-layout{grid-template-columns:1fr}.p-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.p-grid{grid-template-columns:1fr}}
 </style>
@@ -37,16 +36,15 @@ const similaires = [
 <main>
   <section class="p-page">
     <div class="wrap p-layout">
-      <div class="p-cover-lg">Couverture</div>
+      <div class="p-cover-lg"></div>
       <div>
-        <p class="p-cat">Franco-belge</p>
-        <h1 class="p-title">Les Naufragés de l'Empire</h1>
-        <p class="p-author">Scénario & dessin — A. Moreau · Éditions Marée Haute</p>
+        <span class="label">Vêtements</span>
+        <h1 class="p-title">Nike Aeroswift Therma-Fit ADV — Longue manche</h1>
         <div class="p-price-row">
-          <span class="p-price">15,90 €</span>
-          <span class="p-stock">● En stock</span>
+          <span class="p-price">220,00 €</span>
+          <span class="p-stock">En stock</span>
         </div>
-        <p class="p-desc">Sur les côtes oubliées d'un royaume englouti, une équipe de naufragés doit choisir entre survivre seule ou reconstruire un empire commun. Premier tome d'une saga en 6 volumes, à la croisée du récit d'aventure et du drame politique.</p>
+        <p class="p-desc">Veste technique longue manche, coupe ajustée, matière Therma-Fit ADV pour une isolation légère sans surchauffe. Pièce d'entraînement polyvalente, du running au quotidien.</p>
         <div class="p-qty">
           <div class="qty-box">
             <button type="button" aria-label="Diminuer la quantité">−</button>
@@ -56,7 +54,7 @@ const similaires = [
         </div>
         <div class="p-actions">
           <button type="button" class="btn">Ajouter au panier</button>
-          <a href="/panier" class="btn btn-outline">Voir le panier</a>
+          <a href="/panier" class="btn-outline btn">Voir le panier</a>
         </div>
       </div>
     </div>
@@ -64,7 +62,7 @@ const similaires = [
 
   <section class="related">
     <div class="wrap">
-      <h2>Vous aimerez aussi</h2>
+      <h2 class="display">Vous aimerez aussi</h2>
       <div class="p-grid">{similaires.map((p) => <ProductCard {...p} />)}</div>
     </div>
   </section>

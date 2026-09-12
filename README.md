@@ -1,11 +1,11 @@
-# BD Empire — Maquette
+# BD EMPIRES — Maquette
 
-Squelette de site e-commerce (Astro) pour la boutique de bandes dessinées, comics et mangas BD Empire. Contenu et prix sont des exemples à remplacer par les vraies données du client.
+Squelette de site e-commerce (Astro) inspiré de [bdempires.fr](https://bdempires.fr) : vêtements, sneakers et accessoires streetwear. Contenu et prix sont des exemples à remplacer par les vraies données du client. Le logo n'est pas encore intégré (emplacement réservé dans le header) — à remplacer par le fichier réel de la marque.
 
 ## Pages
 
-- `/` — accueil (hero, catégories, nouveautés)
-- `/boutique` — catalogue par catégorie (franco-belge, comics, mangas)
+- `/` — accueil (hero double image, collection)
+- `/catalogue` — grille produits avec barre de filtres
 - `/produit` — fiche produit type
 - `/panier` — panier avec résumé de commande
 - `/contact` — formulaire de contact

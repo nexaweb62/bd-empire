@@ -1,36 +1,31 @@
 ---
 interface Props {
   title: string;
-  author: string;
   price: string;
-  category: string;
+  oldPrice?: string;
   badge?: string;
 }
-const { title, author, price, category, badge } = Astro.props;
+const { title, price, oldPrice, badge } = Astro.props;
 ---
 <style>
-.p-card{position:relative}
-.p-cover{aspect-ratio:3/4;background:linear-gradient(155deg,var(--panel),hsl(240 10% 10%));display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase}
-.p-badge{position:absolute;top:10px;left:10px;background:var(--accent-2);color:#161616;font-size:.68rem;font-weight:800;padding:4px 9px;border-radius:999px;text-transform:uppercase}
-.p-body{padding:16px}
-.p-cat{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
-.p-title{font-size:1rem;font-weight:800;margin-top:6px;line-height:1.25}
-.p-author{font-size:.8rem;color:var(--text-muted);margin-top:2px}
-.p-foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
-.p-price{font-weight:800;font-size:1.05rem}
-.p-add{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:.75rem;font-weight:800;text-transform:uppercase;cursor:pointer}
-.p-add:hover{background:#ff4a3d}
+.p-card{position:relative;border:none;background:transparent}
+.p-cover{aspect-ratio:1/1;background:var(--panel);position:relative;overflow:hidden}
+.p-badge{position:absolute;top:12px;right:12px;background:var(--accent-2);color:#141311;font-size:.66rem;font-weight:600;padding:5px 11px;letter-spacing:.03em}
+.p-body{padding:14px 2px 0}
+.p-title{font-size:.9rem;font-weight:500;line-height:1.3}
+.p-price-row{display:flex;align-items:center;gap:8px;margin-top:6px}
+.p-price{font-weight:600;font-size:.9rem}
+.p-old{font-size:.82rem;color:var(--text-muted);text-decoration:line-through}
 </style>
-<article class="card p-card">
-  {badge && <span class="p-badge">{badge}</span>}
-  <div class="p-cover">Couverture</div>
+<article class="p-card">
+  <div class="p-cover">
+    {badge && <span class="p-badge">{badge}</span>}
+  </div>
   <div class="p-body">
-    <p class="p-cat">{category}</p>
     <h3 class="p-title">{title}</h3>
-    <p class="p-author">{author}</p>
-    <div class="p-foot">
+    <div class="p-price-row">
       <span class="p-price">{price}</span>
-      <button class="p-add" type="button">Ajouter</button>
+      {oldPrice && <span class="p-old">{oldPrice}</span>}
     </div>
   </div>
 </article>
