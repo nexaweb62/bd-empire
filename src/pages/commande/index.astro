@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+<BaseLayout title="Commande — BD Empires" description="Finalisez votre commande BD Empires.">
+<style>
+.tunnel{padding:calc(var(--hdr) + 40px) 0 100px}
+.steps{display:flex;gap:0;margin-bottom:44px;border-bottom:1px solid var(--border)}
+.step-tab{flex:1;text-align:center;padding:0 0 16px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:2px solid transparent;margin-bottom:-1px}
+.step-tab.active{color:#fff;border-color:#fff}
+.step-tab.done{color:var(--text-muted)}
+.tunnel-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:56px;align-items:start}
+.step-panel{display:none}
+.step-panel.active{display:block}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field-row .field{margin-bottom:16px}
+.field{margin-bottom:16px}
+.step-actions{display:flex;justify-content:space-between;margin-top:32px}
+.back-link{background:none;border:none;color:var(--text-muted);font-size:.8rem;cursor:pointer;text-decoration:underline}
+.summary-card{padding:24px;position:sticky;top:calc(var(--hdr) + 24px)}
+.summary-card h2{font-family:'Archivo Black',sans-serif;font-size:1rem;margin-bottom:18px}
+.sc-line{display:flex;justify-content:space-between;gap:12px;font-size:.84rem;padding:8px 0;border-bottom:1px solid var(--border)}
+.sc-line span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-line span:last-child{flex-shrink:0}
+.sc-total{display:flex;justify-content:space-between;font-weight:700;font-size:1.05rem;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.card-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.recap-block{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.recap-block h3{font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.recap-block p{font-size:.88rem;margin:0;line-height:1.6}
+.stripe-note{font-size:.72rem;color:var(--text-tertiary);margin-top:10px}
+@media(max-width:900px){.tunnel-layout{grid-template-columns:1fr}.field-row,.card-fields{grid-template-columns:1fr}.step-tab{font-size:.6rem}}
+</style>
+<Header />
+<main>
+  <section class="tunnel">
+    <div class="wrap">
+      <div class="steps">
+        <div class="step-tab active" data-step="1">Coordonnées</div>
+        <div class="step-tab" data-step="2">Livraison</div>
+        <div class="step-tab" data-step="3">Paiement</div>
+        <div class="step-tab" data-step="4">Récapitulatif</div>
+      </div>
+
+      <div class="tunnel-layout">
+        <div>
+          <form id="tunnel-form">
+            <div class="step-panel active" data-panel="1">
+              <div class="field-row">
+                <div class="field"><label for="firstname">Prénom</label><input id="firstname" required /></div>
+                <div class="field"><label for="lastname">Nom</label><input id="lastname" required /></div>
+              </div>
+              <div class="field"><label for="email">Email</label><input id="email" type="email" required /></div>
+              <div class="field"><label for="phone">Téléphone</label><input id="phone" type="tel" required /></div>
+              <div class="step-actions"><span></span><button type="button" class="btn" data-next>Continuer</button></div>
+            </div>
+
+            <div class="step-panel" data-panel="2">
+              <div class="field"><label for="address">Adresse</label><input id="address" required /></div>
+              <div class="field-row">
+                <div class="field"><label for="zip">Code postal</label><input id="zip" required /></div>
+                <div class="field"><label for="city">Ville</label><input id="city" required /></div>
+              </div>
+              <div class="field"><label for="country">Pays</label><input id="country" value="France" required /></div>
+              <div class="step-actions"><button type="button" class="btn-ghost back-link" data-back>Retour</button><button type="button" class="btn" data-next>Continuer</button></div>
+            </div>
+
+            <div class="step-panel" data-panel="3">
+              <div class="field"><label for="card-name">Nom sur la carte</label><input id="card-name" required /></div>
+              <div class="field"><label for="card-number">Numéro de carte</label><input id="card-number" placeholder="4242 4242 4242 4242" required /></div>
+              <div class="card-fields">
+                <div class="field"><label for="card-exp">Expiration</label><input id="card-exp" placeholder="MM / AA" required /></div>
+                <div class="field"><label for="card-cvc">CVC</label><input id="card-cvc" placeholder="123" required /></div>
+              </div>
+              <p class="stripe-note">Paiement sécurisé Stripe — mode test pour cette maquette, aucune carte réelle n'est débitée.</p>
+              <div class="step-actions"><button type="button" class="btn-ghost back-link" data-back>Retour</button><button type="button" class="btn" data-next>Continuer</button></div>
+            </div>
+
+            <div class="step-panel" data-panel="4">
+              <div class="recap-block">
+                <h3>Contact</h3>
+                <p id="recap-contact"></p>
+              </div>
+              <div class="recap-block">
+                <h3>Livraison</h3>
+                <p id="recap-address"></p>
+              </div>
+              <div class="recap-block">
+                <h3>Paiement</h3>
+                <p id="recap-card"></p>
+              </div>
+              <div class="step-actions"><button type="button" class="btn-ghost back-link" data-back>Retour</button><button type="submit" class="btn">Valider la commande</button></div>
+            </div>
+          </form>
+        </div>
+
+        <aside class="card summary-card">
+          <h2>Votre commande</h2>
+          <div id="sc-lines"></div>
+          <div class="sc-total"><span>Total</span><span id="sc-total">0,00 €</span></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  import { getCart, cartSubtotal } from '../../lib/cart';
+
+  const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
+  let current = 1;
+  const total = 4;
+
+  function goTo(step: number) {
+    current = step;
+    document.querySelectorAll<HTMLElement>('.step-tab').forEach((t) => {
+      const n = Number(t.dataset.step);
+      t.classList.toggle('active', n === step);
+      t.classList.toggle('done', n < step);
+    });
+    document.querySelectorAll<HTMLElement>('.step-panel').forEach((p) => {
+      p.classList.toggle('active', Number(p.dataset.panel) === step);
+    });
+    if (step === 4) fillRecap();
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }
+
+  function currentPanel() {
+    return document.querySelector<HTMLElement>(`.step-panel[data-panel="${current}"]`)!;
+  }
+
+  function validateStep(): boolean {
+    const inputs = currentPanel().querySelectorAll<HTMLInputElement>('input[required]');
+    for (const input of inputs) {
+      if (!input.value.trim()) { input.focus(); return false; }
+    }
+    return true;
+  }
+
+  document.querySelectorAll('[data-next]').forEach((btn) => {
+    btn.addEventListener('click', () => { if (validateStep() && current < total) goTo(current + 1); });
+  });
+  document.querySelectorAll('[data-back]').forEach((btn) => {
+    btn.addEventListener('click', () => { if (current > 1) goTo(current - 1); });
+  });
+
+  function val(id: string) { return (document.getElementById(id) as HTMLInputElement)?.value || ''; }
+
+  function fillRecap() {
+    document.getElementById('recap-contact')!.textContent = `${val('firstname')} ${val('lastname')} — ${val('email')} — ${val('phone')}`;
+    document.getElementById('recap-address')!.textContent = `${val('address')}, ${val('zip')} ${val('city')}, ${val('country')}`;
+    const num = val('card-number').replace(/\d(?=\d{4})/g, '•');
+    document.getElementById('recap-card')!.textContent = `${val('card-name')} — ${num}`;
+  }
+
+  function renderSummary() {
+    const cart = getCart();
+    const linesEl = document.getElementById('sc-lines')!;
+    linesEl.innerHTML = cart.map((l) => `<div class="sc-line"><span>${l.name} × ${l.qty} (${l.size})</span><span>${fmt(l.price * l.qty)}</span></div>`).join('');
+    document.getElementById('sc-total')!.textContent = fmt(cartSubtotal(cart) + 4.9);
+  }
+  renderSummary();
+
+  document.getElementById('tunnel-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const orderNumber = 'BDE-' + Math.floor(100000 + Math.random() * 900000);
+    localStorage.setItem('bdEmpiresLastOrder', orderNumber);
+    localStorage.removeItem('bdEmpiresCart');
+    window.location.href = `/commande/confirmation?n=${orderNumber}`;
+  });
+</script>
+</BaseLayout>

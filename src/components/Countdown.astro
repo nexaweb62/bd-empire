@@ -1,0 +1,35 @@
+---
+interface Props { target: string; id?: string }
+const { target, id = 'countdown' } = Astro.props;
+---
+<style>
+.cd-row{display:flex;gap:28px}
+.cd-unit{text-align:center}
+.cd-num{font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,5vw,3.4rem);line-height:1}
+.cd-label{display:block;margin-top:6px;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted)}
+</style>
+<div class="cd-row tabular" id={id} data-target={target}>
+  <div class="cd-unit"><span class="cd-num" data-d>00</span><span class="cd-label">Jours</span></div>
+  <div class="cd-unit"><span class="cd-num" data-h>00</span><span class="cd-label">Heures</span></div>
+  <div class="cd-unit"><span class="cd-num" data-m>00</span><span class="cd-label">Minutes</span></div>
+</div>
+<script>
+  function pad(n: number) { return String(Math.max(0, n)).padStart(2, '0'); }
+  document.querySelectorAll<HTMLElement>('[data-target]').forEach((el) => {
+    const target = new Date(el.dataset.target!).getTime();
+    const dEl = el.querySelector('[data-d]')!;
+    const hEl = el.querySelector('[data-h]')!;
+    const mEl = el.querySelector('[data-m]')!;
+    function tick() {
+      const diff = target - Date.now();
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins = Math.floor((diff % 3600000) / 60000);
+      dEl.textContent = pad(days);
+      hEl.textContent = pad(hours);
+      mEl.textContent = pad(mins);
+    }
+    tick();
+    setInterval(tick, 30000);
+  });
+</script>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+<BaseLayout title="Mentions légales — BD Empires" description="Mentions légales de BD Empires.">
+<style>
+.legal-page{padding:calc(var(--hdr) + 40px) 0 100px;max-width:720px}
+.legal-page h1{font-family:'Archivo Black',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:36px}
+.legal-page h2{font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:36px 0 12px}
+.legal-page p,.legal-page li{color:var(--text-muted);font-size:.9rem;line-height:1.75}
+.legal-page ul{padding-left:20px}
+</style>
+<Header />
+<main>
+  <section class="wrap legal-page">
+    <h1>Mentions légales</h1>
+
+    <h2>Éditeur du site</h2>
+    <p>BD Empires — [Forme juridique], au capital de [montant] €.<br />
+    Siège social : [adresse].<br />
+    SIRET : [numéro] — RCS [ville].<br />
+    Directeur de la publication : [nom].</p>
+
+    <h2>Hébergement</h2>
+    <p>[Nom de l'hébergeur], [adresse de l'hébergeur].</p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>L'ensemble des contenus présents sur ce site (textes, visuels, logo, identité graphique) est la propriété exclusive de BD Empires, sauf mention contraire. Toute reproduction sans autorisation préalable est interdite.</p>
+
+    <h2>Contact</h2>
+    <p>Pour toute question relative aux présentes mentions légales, contactez-nous via la <a href="/contact" style="color:#fff">page contact</a>.</p>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

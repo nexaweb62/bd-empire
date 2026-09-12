@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout title="Mon compte — BD Empires" description="Connectez-vous à votre compte BD Empires.">
+<style>
+.account{padding:calc(var(--hdr) + 40px) 0 100px}
+.account h1{font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,3.4vw,2.4rem)}
+
+.auth-layout{max-width:420px;margin:44px auto 0}
+.auth-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:28px}
+.auth-tab{flex:1;text-align:center;padding:0 0 14px;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:2px solid transparent;margin-bottom:-1px;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer}
+.auth-tab.active{color:#fff;border-color:#fff}
+.auth-panel{display:none}
+.auth-panel.active{display:block}
+.google-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border:1px solid var(--border);background:transparent;color:#fff;font-size:.8rem;font-weight:600;cursor:pointer;margin-bottom:20px}
+.or-sep{display:flex;align-items:center;gap:12px;color:var(--text-tertiary);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin:20px 0}
+.or-sep::before,.or-sep::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.dashboard{margin-top:40px}
+.dash-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.dash-head h2{font-family:'Archivo Black',sans-serif;font-size:1.2rem}
+.tabs{display:flex;gap:28px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.tab-btn{background:none;border:none;color:var(--text-tertiary);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:0 0 14px;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
+.tab-btn.active{color:#fff;border-color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.order-row{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--border);gap:16px;flex-wrap:wrap}
+.order-id{font-weight:700;font-size:.88rem}
+.order-date{font-size:.78rem;color:var(--text-muted);margin-top:4px}
+.status{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--border)}
+.status.expedie{border-color:#fff}
+.address-card{padding:20px;margin-bottom:16px}
+.address-card p{margin:0;font-size:.88rem;line-height:1.6}
+</style>
+<Header />
+<main>
+  <section class="account">
+    <div class="wrap">
+      <h1>Mon compte</h1>
+
+      <div id="auth-view" class="auth-layout">
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" data-auth="login">Connexion</button>
+          <button type="button" class="auth-tab" data-auth="signup">Inscription</button>
+        </div>
+
+        <div class="auth-panel active" data-auth-panel="login">
+          <button type="button" class="google-btn" id="google-login">Continuer avec Google</button>
+          <div class="or-sep">ou</div>
+          <form id="login-form">
+            <div class="field"><label for="login-email">Email</label><input id="login-email" type="email" required /></div>
+            <div class="field"><label for="login-password">Mot de passe</label><input id="login-password" type="password" required /></div>
+            <button type="submit" class="btn" style="width:100%;margin-top:8px">Se connecter</button>
+          </form>
+        </div>
+
+        <div class="auth-panel" data-auth-panel="signup">
+          <button type="button" class="google-btn" id="google-signup">Continuer avec Google</button>
+          <div class="or-sep">ou</div>
+          <form id="signup-form">
+            <div class="field"><label for="signup-name">Nom</label><input id="signup-name" required /></div>
+            <div class="field"><label for="signup-email">Email</label><input id="signup-email" type="email" required /></div>
+            <div class="field"><label for="signup-password">Mot de passe</label><input id="signup-password" type="password" required /></div>
+            <button type="submit" class="btn" style="width:100%;margin-top:8px">Créer mon compte</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="dashboard-view" class="dashboard" hidden>
+        <div class="dash-head">
+          <h2 id="dash-greeting">Bonjour</h2>
+          <button type="button" class="btn-ghost" id="logout-btn">Déconnexion</button>
+        </div>
+        <div class="tabs">
+          <button type="button" class="tab-btn active" data-tab="orders">Mes commandes</button>
+          <button type="button" class="tab-btn" data-tab="addresses">Adresses</button>
+        </div>
+        <div class="tab-panel active" data-tab-panel="orders">
+          <div class="order-row">
+            <div><div class="order-id">Commande BDE-482913</div><div class="order-date">12 janvier 2026</div></div>
+            <span class="status expedie">Expédiée</span>
+          </div>
+          <div class="order-row">
+            <div><div class="order-id">Commande BDE-471820</div><div class="order-date">28 décembre 2025</div></div>
+            <span class="status">Livrée</span>
+          </div>
+          <div class="order-row">
+            <div><div class="order-id">Commande BDE-460234</div><div class="order-date">3 novembre 2025</div></div>
+            <span class="status">Livrée</span>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab-panel="addresses">
+          <div class="card address-card">
+            <p><strong>Domicile</strong><br />12 rue des Ateliers<br />59000 Lille, France</p>
+          </div>
+          <button type="button" class="btn-ghost">+ Ajouter une adresse</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  const KEY = 'bdEmpiresAccount';
+
+  function showDashboard(name: string) {
+    (document.getElementById('auth-view') as HTMLElement).hidden = true;
+    (document.getElementById('dashboard-view') as HTMLElement).hidden = false;
+    document.getElementById('dash-greeting')!.textContent = `Bonjour, ${name}`;
+  }
+
+  const existing = localStorage.getItem(KEY);
+  if (existing) showDashboard(existing);
+
+  document.querySelectorAll('[data-auth]').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = (tab as HTMLElement).dataset.auth;
+      document.querySelectorAll('[data-auth]').forEach((t) => t.classList.toggle('active', t === tab));
+      document.querySelectorAll('[data-auth-panel]').forEach((p) => {
+        p.classList.toggle('active', (p as HTMLElement).dataset.authPanel === target);
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-tab]').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = (tab as HTMLElement).dataset.tab;
+      document.querySelectorAll('[data-tab]').forEach((t) => t.classList.toggle('active', t === tab));
+      document.querySelectorAll('[data-tab-panel]').forEach((p) => {
+        p.classList.toggle('active', (p as HTMLElement).dataset.tabPanel === target);
+      });
+    });
+  });
+
+  document.getElementById('login-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('login-email') as HTMLInputElement).value;
+    const name = email.split('@')[0];
+    localStorage.setItem(KEY, name);
+    showDashboard(name);
+  });
+  document.getElementById('signup-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = (document.getElementById('signup-name') as HTMLInputElement).value;
+    localStorage.setItem(KEY, name);
+    showDashboard(name);
+  });
+  document.getElementById('google-login')?.addEventListener('click', () => { localStorage.setItem(KEY, 'Client Google'); showDashboard('Client Google'); });
+  document.getElementById('google-signup')?.addEventListener('click', () => { localStorage.setItem(KEY, 'Client Google'); showDashboard('Client Google'); });
+
+  document.getElementById('logout-btn')?.addEventListener('click', () => {
+    localStorage.removeItem(KEY);
+    (document.getElementById('dashboard-view') as HTMLElement).hidden = true;
+    (document.getElementById('auth-view') as HTMLElement).hidden = false;
+  });
+</script>
+</BaseLayout>

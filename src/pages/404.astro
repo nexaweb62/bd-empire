@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout title="Page introuvable — BD Empires" description="Cette page n'existe pas.">
+<style>
+.nf{
+  min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;
+  background:radial-gradient(circle at 50% 40%,#141416,#000 65%);
+}
+.nf-code{font-family:'Archivo Black',sans-serif;font-size:clamp(4rem,14vw,9rem);line-height:1}
+.nf h1{font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.4vw,1.6rem);margin-top:8px}
+.nf p{color:var(--text-muted);margin-top:14px;max-width:360px;margin-left:auto;margin-right:auto}
+.nf .btn{margin-top:32px}
+</style>
+<Header />
+<main>
+  <section class="nf grain">
+    <div class="wrap">
+      <span class="eyebrow">Erreur 404</span>
+      <div class="nf-code">◐</div>
+      <h1>Cette pièce n'existe pas.</h1>
+      <p>La page que vous cherchez a disparu, ou n'a jamais été produite.</p>
+      <a href="/boutique" class="btn">Retour à la boutique</a>
+    </div>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

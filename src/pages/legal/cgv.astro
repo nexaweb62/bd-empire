@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+<BaseLayout title="CGV — BD Empires" description="Conditions générales de vente BD Empires.">
+<style>
+.legal-page{padding:calc(var(--hdr) + 40px) 0 100px;max-width:720px}
+.legal-page h1{font-family:'Archivo Black',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:36px}
+.legal-page h2{font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:36px 0 12px}
+.legal-page p,.legal-page li{color:var(--text-muted);font-size:.9rem;line-height:1.75}
+.legal-page ul{padding-left:20px}
+</style>
+<Header />
+<main>
+  <section class="wrap legal-page">
+    <h1>Conditions générales de vente</h1>
+
+    <h2>Produits</h2>
+    <p>Les pièces BD Empires sont vendues en séries limitées. La disponibilité affichée sur le site est mise à jour en temps réel ; une pièce en rupture ne fait pas l'objet de réassort automatique.</p>
+
+    <h2>Prix &amp; paiement</h2>
+    <p>Les prix sont indiqués en euros, toutes taxes comprises. Le paiement est sécurisé et traité par Stripe. La commande est confirmée après validation du paiement.</p>
+
+    <h2>Livraison</h2>
+    <p>Expédition sous 24 à 48h ouvrées après confirmation de commande. Les délais de livraison sont donnés à titre indicatif et dépendent du transporteur.</p>
+
+    <h2>Droit de rétractation</h2>
+    <p>Conformément à la législation en vigueur, vous disposez de 14 jours à compter de la réception pour exercer votre droit de rétractation, sans avoir à justifier de motif. Voir notre page <a href="/legal/retours" style="color:#fff">retours</a>.</p>
+
+    <h2>Litiges</h2>
+    <p>En cas de litige, une solution amiable sera recherchée avant toute action judiciaire. À défaut, les tribunaux compétents seront ceux du siège social de BD Empires.</p>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

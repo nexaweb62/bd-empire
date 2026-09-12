@@ -1,11 +1,20 @@
 ---
 import '../styles/global.css';
+import IntroScreen from '../components/IntroScreen.astro';
 
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
-const { title, description = "BD EMPIRES — Vêtements, sneakers et accessoires streetwear." } = Astro.props;
+const {
+  title,
+  description = "BD Empires — By La Mentale. Vêtements streetwear en séries limitées : work, respect, discipline.",
+  ogImage = "/og-image.jpg",
+} = Astro.props;
+
+const siteUrl = 'https://bdempires.fr';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 ---
 <!doctype html>
 <html lang="fr">
@@ -15,11 +24,31 @@ const { title, description = "BD EMPIRES — Vêtements, sneakers et accessoires
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BD Empires" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL(ogImage, siteUrl).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Black&family=Permanent+Marker&display=swap" rel="stylesheet" />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'BD Empires',
+      alternateName: 'By La Mentale',
+      url: siteUrl,
+      slogan: 'Work · Respect · Discipline',
+    })} />
   </head>
   <body>
+    <IntroScreen />
     <slot />
   </body>
 </html>

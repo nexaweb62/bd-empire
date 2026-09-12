@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { products, totalStock } from '../../data/products';
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug }, props: { product: p } }));
+}
+
+const { product } = Astro.props;
+const related = products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3);
+const inStock = totalStock(product) > 0;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.name,
+  description: product.description,
+  category: product.category,
+  offers: {
+    '@type': 'Offer',
+    price: product.price,
+    priceCurrency: 'EUR',
+    availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+  },
+};
+---
+<BaseLayout title={`${product.name} — BD Empires`} description={product.description}>
+<style>
+.p-page{padding:calc(var(--hdr) + 40px) 0 100px}
+.p-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gallery .main{grid-column:1/-1;aspect-ratio:4/5;background:var(--surface)}
+.gallery .thumb{aspect-ratio:1/1;background:var(--surface)}
+
+.p-info{position:sticky;top:calc(var(--hdr) + 24px)}
+.p-name{font-family:'Archivo Black',sans-serif;font-size:clamp(1.6rem,2.6vw,2.2rem);margin-top:14px}
+.p-price-row{display:flex;align-items:center;gap:14px;margin-top:18px}
+.p-price{font-size:1.2rem;font-weight:700}
+.p-badges{display:flex;gap:8px;margin-top:14px}
+
+.size-row{display:flex;align-items:center;justify-content:space-between;margin-top:32px}
+.size-row .eyebrow{margin:0}
+.size-guide-btn{background:none;border:none;color:var(--text-muted);font-size:.76rem;text-decoration:underline;cursor:pointer;padding:0}
+.sizes{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.size-btn{
+  min-width:46px;height:46px;padding:0 10px;
+  border:1px solid var(--border);background:transparent;color:#fff;
+  font-size:.8rem;font-weight:600;cursor:pointer;
+}
+.size-btn[aria-disabled="true"]{color:var(--text-tertiary);border-color:var(--border);text-decoration:line-through;cursor:not-allowed}
+.size-btn[aria-pressed="true"]{border-color:#fff;background:#fff;color:#000}
+
+.p-desc{margin-top:28px;color:var(--text-muted);line-height:1.75;font-size:.9rem;max-width:460px}
+.p-meta{margin-top:18px;font-size:.82rem;color:var(--text-muted);display:flex;flex-direction:column;gap:6px}
+
+.p-actions{margin-top:30px;display:flex;flex-direction:column;gap:10px}
+.p-note{font-size:.72rem;color:var(--text-tertiary);margin-top:10px}
+
+.accordion{margin-top:36px;border-top:1px solid var(--border)}
+.acc-item{border-bottom:1px solid var(--border)}
+.acc-item summary{padding:16px 0;font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+.acc-item summary::-webkit-details-marker{display:none}
+.acc-item p{padding-bottom:16px;color:var(--text-muted);font-size:.86rem;line-height:1.7;margin:0}
+
+.related{padding:80px 0 100px;border-top:1px solid var(--border)}
+.related h2{font-family:'Archivo Black',sans-serif;font-size:1.4rem;margin-bottom:28px}
+.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+
+@media(max-width:900px){.p-layout{grid-template-columns:1fr}.p-info{position:static}.p-grid{grid-template-columns:repeat(2,1fr)}}
+
+.sg-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+.sg-backdrop.open{opacity:1;pointer-events:auto}
+.sg-panel{
+  position:fixed;top:0;right:0;bottom:0;width:min(380px,100%);
+  background:#000;border-left:1px solid var(--border);z-index:401;
+  padding:24px;transform:translateX(100%);transition:transform .4s var(--ease);
+  overflow-y:auto;
+}
+.sg-panel.open{transform:translateX(0)}
+.sg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.sg-head h2{font-family:'Archivo Black',sans-serif;font-size:1rem;text-transform:uppercase}
+.sg-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.sg-table th,.sg-table td{border:1px solid var(--border);padding:9px 8px;text-align:center}
+.sg-table th{color:var(--text-muted);font-weight:600;font-size:.7rem;text-transform:uppercase}
+.sg-note{margin-top:18px;font-size:.78rem;color:var(--text-muted);line-height:1.6}
+</style>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<Header />
+<main>
+  <section class="p-page">
+    <div class="wrap p-layout">
+      <div class="gallery">
+        <div class="main grain"></div>
+        <div class="thumb grain"></div>
+        <div class="thumb grain"></div>
+      </div>
+
+      <div class="p-info">
+        <span class="eyebrow">{product.category}</span>
+        <h1 class="p-name">{product.name}</h1>
+        <div class="p-price-row">
+          <span class="p-price">{product.price.toFixed(2).replace('.', ',')} €</span>
+        </div>
+        <div class="p-badges">
+          {product.limited && <span class="badge badge-limited">Série limitée — {product.limitedRun} pièces</span>}
+          {product.comingSoon && <span class="badge">Bientôt disponible</span>}
+        </div>
+
+        <div class="size-row">
+          <span class="eyebrow">Taille</span>
+          <button type="button" class="size-guide-btn" id="size-guide-open">Guide des tailles</button>
+        </div>
+        <div class="sizes" id="size-picker">
+          {product.variants.map((v) => (
+            <button
+              type="button"
+              class="size-btn"
+              data-size={v.size}
+              data-stock={v.stock}
+              aria-disabled={v.stock === 0}
+              aria-pressed="false"
+              disabled={v.stock === 0 || product.comingSoon}
+            >{v.size}</button>
+          ))}
+        </div>
+
+        <p class="p-desc">{product.description}</p>
+        <div class="p-meta">
+          <span>Matière — {product.material}</span>
+          <span>Coupe — {product.fit}</span>
+        </div>
+
+        <div class="p-actions">
+          {product.comingSoon ? (
+            <button type="button" class="btn" id="alert-btn">Recevoir une alerte</button>
+          ) : (
+            <button
+              type="button"
+              class="btn"
+              id="add-to-cart"
+              data-slug={product.slug}
+              data-name={product.name}
+              data-price={product.price}
+              disabled
+            >Ajouter au panier</button>
+          )}
+          <p class="p-note" id="p-note">{product.comingSoon ? 'Disponible au prochain drop.' : 'Sélectionnez une taille disponible.'}</p>
+        </div>
+
+        <div class="accordion">
+          <details class="acc-item">
+            <summary>Livraison &amp; retours</summary>
+            <p>Expédition sous 24 à 48h ouvrées. Retours acceptés sous 14 jours, article non porté et dans son emballage d'origine.</p>
+          </details>
+          <details class="acc-item">
+            <summary>Entretien</summary>
+            <p>Lavage à 30°C, envers, sans sèche-linge. Ne pas repasser sur la broderie ou la sérigraphie.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sg-backdrop" id="sg-backdrop"></div>
+  <aside class="sg-panel" id="sg-panel" aria-label="Guide des tailles">
+    <div class="sg-head">
+      <h2>Guide des tailles</h2>
+      <button type="button" class="mm-close" id="sg-close" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.6"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <table class="sg-table">
+      <thead><tr><th>Taille</th><th>Poitrine (cm)</th><th>Longueur (cm)</th></tr></thead>
+      <tbody>
+        <tr><td>S</td><td>52</td><td>68</td></tr>
+        <tr><td>M</td><td>55</td><td>70</td></tr>
+        <tr><td>L</td><td>58</td><td>72</td></tr>
+        <tr><td>XL</td><td>61</td><td>74</td></tr>
+        <tr><td>XXL</td><td>64</td><td>76</td></tr>
+      </tbody>
+    </table>
+    <p class="sg-note">Mesures à plat, pièce posée sur une surface plane. En cas d'hésitation entre deux tailles, privilégiez la taille au-dessus — les coupes BD Empires sont amples.</p>
+  </aside>
+
+  {related.length > 0 && (
+    <section class="related">
+      <div class="wrap">
+        <h2>Pièces associées</h2>
+        <div class="p-grid">{related.map((p) => <ProductCard product={p} />)}</div>
+      </div>
+    </section>
+  )}
+</main>
+<Footer />
+
+<script>
+  import { addToCart } from '../../lib/cart';
+
+  const picker = document.getElementById('size-picker');
+  const addBtn = document.getElementById('add-to-cart') as HTMLButtonElement | null;
+  const note = document.getElementById('p-note')!;
+  let selectedSize: string | null = null;
+
+  picker?.querySelectorAll('.size-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      picker.querySelectorAll('.size-btn').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      selectedSize = btn.getAttribute('data-size');
+      if (addBtn) {
+        addBtn.removeAttribute('disabled');
+        note.textContent = `Taille ${selectedSize} sélectionnée.`;
+      }
+    });
+  });
+
+  addBtn?.addEventListener('click', () => {
+    if (!selectedSize || !addBtn.dataset.slug) return;
+    addToCart({
+      slug: addBtn.dataset.slug!,
+      name: addBtn.dataset.name!,
+      price: Number(addBtn.dataset.price),
+      size: selectedSize,
+    }, 1);
+    (window as any).__bdOpenCart?.();
+  });
+
+  document.getElementById('alert-btn')?.addEventListener('click', (e) => {
+    const btn = e.currentTarget as HTMLButtonElement;
+    btn.textContent = 'Alerte activée';
+    btn.setAttribute('disabled', 'true');
+  });
+
+  const sgPanel = document.getElementById('sg-panel');
+  const sgBackdrop = document.getElementById('sg-backdrop');
+  document.getElementById('size-guide-open')?.addEventListener('click', () => {
+    sgPanel?.classList.add('open');
+    sgBackdrop?.classList.add('open');
+  });
+  function closeSizeGuide() {
+    sgPanel?.classList.remove('open');
+    sgBackdrop?.classList.remove('open');
+  }
+  document.getElementById('sg-close')?.addEventListener('click', closeSizeGuide);
+  sgBackdrop?.addEventListener('click', closeSizeGuide);
+</script>
+</BaseLayout>

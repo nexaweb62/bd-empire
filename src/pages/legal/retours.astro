@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+<BaseLayout title="Retours — BD Empires" description="Politique de retours BD Empires.">
+<style>
+.legal-page{padding:calc(var(--hdr) + 40px) 0 100px;max-width:720px}
+.legal-page h1{font-family:'Archivo Black',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:36px}
+.legal-page h2{font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:36px 0 12px}
+.legal-page p,.legal-page li{color:var(--text-muted);font-size:.9rem;line-height:1.75}
+.legal-page ul{padding-left:20px}
+</style>
+<Header />
+<main>
+  <section class="wrap legal-page">
+    <h1>Livraison &amp; retours</h1>
+
+    <h2>Délais de livraison</h2>
+    <p>Commande expédiée sous 24 à 48h ouvrées. Livraison estimée entre 2 et 5 jours ouvrés en France métropolitaine. Livraison gratuite dès 250 € d'achat.</p>
+
+    <h2>Retourner un article</h2>
+    <p>Vous disposez de 14 jours à compter de la réception pour retourner un article, à condition qu'il soit :</p>
+    <ul>
+      <li>Non porté et non lavé</li>
+      <li>Dans son emballage d'origine, étiquettes attachées</li>
+      <li>Accompagné du bon de retour envoyé par email</li>
+    </ul>
+    <p>Les pièces en série limitée numérotée ne sont ni reprises ni échangées, sauf défaut de fabrication avéré.</p>
+
+    <h2>Remboursement</h2>
+    <p>Le remboursement est effectué sur le moyen de paiement utilisé lors de l'achat, sous 14 jours à réception du retour.</p>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

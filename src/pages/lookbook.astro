@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const slides = [
+  { caption: 'Série 003 — 01/06' },
+  { caption: 'Série 003 — 02/06' },
+  { caption: 'Série 003 — 03/06' },
+  { caption: 'Série 003 — 04/06' },
+  { caption: 'Série 003 — 05/06' },
+  { caption: 'Série 003 — 06/06' },
+];
+---
+<BaseLayout title="Lookbook — BD Empires" description="Lookbook série 003 — BD Empires.">
+<style>
+.lb-viewer{position:relative;height:100svh;padding-top:var(--hdr);overflow:hidden;background:#000}
+.lb-track{display:flex;height:100%;transition:transform .5s var(--ease)}
+.lb-slide{min-width:100%;height:100%;background:var(--surface);position:relative;flex-shrink:0}
+.lb-caption{position:absolute;bottom:32px;left:0;right:0;text-align:center}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:5;background:none;border:none;color:#fff;cursor:pointer;padding:14px}
+.lb-nav svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.4}
+.lb-prev{left:8px}
+.lb-next{right:8px}
+.lb-dots{position:absolute;bottom:56px;left:0;right:0;display:flex;justify-content:center;gap:8px}
+.lb-dot{width:6px;height:6px;border-radius:999px;background:var(--text-tertiary)}
+.lb-dot.active{background:#fff}
+@media(max-width:600px){.lb-nav{display:none}}
+</style>
+<Header />
+<main>
+  <section class="lb-viewer" id="lb-viewer" tabindex="0" aria-label="Lookbook, utilisez les flèches du clavier pour naviguer">
+    <div class="lb-track" id="lb-track">
+      {slides.map((s) => (
+        <div class="lb-slide grain">
+          <span class="eyebrow lb-caption">{s.caption}</span>
+        </div>
+      ))}
+    </div>
+    <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Photo précédente">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Photo suivante">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <div class="lb-dots" id="lb-dots">
+      {slides.map((_, i) => <span class="lb-dot" data-i={i}></span>)}
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  const track = document.getElementById('lb-track')!;
+  const viewer = document.getElementById('lb-viewer')!;
+  const dots = Array.from(document.querySelectorAll<HTMLElement>('.lb-dot'));
+  const slideCount = track.children.length;
+  let index = 0;
+
+  function update() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+  }
+  function go(delta: number) {
+    index = Math.max(0, Math.min(slideCount - 1, index + delta));
+    update();
+  }
+
+  document.getElementById('lb-prev')?.addEventListener('click', () => go(-1));
+  document.getElementById('lb-next')?.addEventListener('click', () => go(1));
+  dots.forEach((d, i) => d.addEventListener('click', () => { index = i; update(); }));
+
+  viewer.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+  viewer.focus();
+
+  let touchStartX = 0;
+  viewer.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  viewer.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  update();
+</script>
+</BaseLayout>

@@ -3,17 +3,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 ---
-<BaseLayout title="Contact — BD EMPIRES" description="Contactez l'équipe BD EMPIRES.">
+<BaseLayout title="Contact — BD Empires" description="Contactez BD Empires.">
 <style>
-.contact-page{padding:60px 0 100px}
+.contact-page{padding:calc(var(--hdr) + 40px) 0 100px}
 .contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:56px}
-.contact-layout h1{font-size:clamp(2rem,4vw,2.8rem)}
-.contact-layout p{color:var(--text-muted);margin-top:16px;line-height:1.6;max-width:420px}
+.contact-layout h1{font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,3.4vw,2.6rem)}
+.contact-layout p.lead{color:var(--text-muted);margin-top:16px;line-height:1.7;max-width:420px}
+.social-list{display:flex;flex-direction:column;gap:14px;margin-top:36px}
+.social-list a{font-size:.86rem;font-weight:600;border-bottom:1px solid var(--border);padding-bottom:12px;display:block;max-width:260px}
 .form{padding:30px}
-.field{margin-bottom:18px}
-.field label{display:block;font-size:.76rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:8px}
-.field input,.field textarea{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:.9rem}
-.field textarea{resize:vertical;min-height:120px}
+.honeypot{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+.form-status{margin-top:16px;font-size:.82rem}
+.form-status.ok{color:#9fd39f}
 @media(max-width:820px){.contact-layout{grid-template-columns:1fr}}
 </style>
 <Header />
@@ -21,27 +22,53 @@ import Footer from '../components/Footer.astro';
   <section class="contact-page">
     <div class="wrap contact-layout">
       <div>
-        <span class="label">Contact</span>
-        <h1 class="display" style="margin-top:14px">Une question,<br>une commande spéciale ?</h1>
-        <p>Notre équipe vous répond sous 24h ouvrées. Pour un article en rupture ou une précommande, précisez-le dans votre message.</p>
+        <span class="eyebrow">Contact</span>
+        <h1 style="margin-top:14px">On répond, pas en spam.</h1>
+        <p class="lead">Une question sur une pièce, un partenariat, une presse : écrivez-nous, on lit tout.</p>
+        <div class="social-list">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer">TikTok</a>
+        </div>
       </div>
-      <form class="card form">
+      <form class="card form" id="contact-form">
         <div class="field">
           <label for="name">Nom</label>
-          <input id="name" type="text" placeholder="Votre nom" />
+          <input id="name" name="name" type="text" required />
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" type="email" placeholder="vous@exemple.com" />
+          <input id="email" name="email" type="email" required />
+        </div>
+        <div class="field">
+          <label for="subject">Sujet</label>
+          <input id="subject" name="subject" type="text" required />
         </div>
         <div class="field">
           <label for="message">Message</label>
-          <textarea id="message" placeholder="Votre message..."></textarea>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <div class="field honeypot" aria-hidden="true">
+          <label for="company">Ne pas remplir</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
         </div>
         <button type="submit" class="btn" style="width:100%">Envoyer</button>
+        <p class="form-status" id="form-status" hidden></p>
       </form>
     </div>
   </section>
 </main>
 <Footer />
+<script>
+  document.getElementById('contact-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const honeypot = (form.elements.namedItem('company') as HTMLInputElement).value;
+    const status = document.getElementById('form-status')!;
+    if (honeypot) return; // silently drop bot submissions
+    status.textContent = 'Message envoyé — on revient vers vous sous 48h.';
+    status.className = 'form-status ok';
+    status.hidden = false;
+    form.reset();
+  });
+</script>
 </BaseLayout>

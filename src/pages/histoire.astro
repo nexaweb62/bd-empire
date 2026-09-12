@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout title="Histoire — BD Empires" description="L'histoire de BD Empires, la devise Work · Respect · Discipline, et les personnes qui la portent.">
+<style>
+.hist-hero{padding:calc(var(--hdr) + 60px) 0 60px;border-bottom:1px solid var(--border)}
+.hist-hero h1{font-family:'Archivo Black',sans-serif;font-size:clamp(2rem,5vw,3.4rem);max-width:760px}
+.hist-body{padding:80px 0;max-width:680px}
+.hist-body p{font-size:1.05rem;line-height:1.8;color:var(--text-muted);margin:0 0 26px}
+.hist-body p:last-child{margin-bottom:0}
+
+.motto{padding:80px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.motto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.motto-item h2{font-family:'Archivo Black',sans-serif;font-size:1.6rem;margin-bottom:14px}
+.motto-item p{font-size:.88rem;color:var(--text-muted);line-height:1.7;margin:0}
+@media(max-width:820px){.motto-grid{grid-template-columns:1fr}}
+
+.people{padding:80px 0}
+.people-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px}
+.person{padding:0}
+.person-photo{aspect-ratio:4/5;background:var(--surface);margin-bottom:16px}
+.person h3{font-family:'Archivo Black',sans-serif;font-size:1rem;text-transform:uppercase}
+.person span{display:block;font-size:.78rem;color:var(--text-muted);margin-top:4px}
+@media(max-width:700px){.people-grid{grid-template-columns:1fr 1fr}}
+</style>
+<Header />
+<main>
+  <section class="hist-hero">
+    <div class="wrap">
+      <span class="eyebrow">Histoire</span>
+      <h1 style="margin-top:16px">On n'a pas commencé avec un business plan. On a commencé avec une devise.</h1>
+    </div>
+  </section>
+
+  <section class="hist-body">
+    <div class="wrap">
+      <p>BD Empires est né dans un garage, entre deux jobs alimentaires, sans investisseur ni plan marketing. La première pièce, un hoodie, s'est vendue en dix jours à des gens qu'on connaissait à peine. Ça a suffi pour continuer.</p>
+      <p>On n'a jamais voulu produire beaucoup. On a voulu produire juste : des matières qui tiennent, des coupes qu'on porte encore trois ans après, des séries assez petites pour qu'on connaisse chaque pièce qui sort de l'atelier.</p>
+      <p>La devise est venue avant le nom de marque. Work, Respect, Discipline — trois mots qu'on s'était donnés avant même de savoir qu'on ferait des vêtements. Ils sont restés parce qu'ils étaient vrais avant d'être une baseline.</p>
+    </div>
+  </section>
+
+  <section class="motto">
+    <div class="wrap motto-grid">
+      <div class="motto-item">
+        <h2>Work</h2>
+        <p>Rien n'est dû. Chaque pièce, chaque drop, chaque ligne de code de ce site — c'est du travail répété, pas un coup de chance.</p>
+      </div>
+      <div class="motto-item">
+        <h2>Respect</h2>
+        <p>Du client qui attend une pièce bien faite, de l'atelier qui la fabrique, et de la rue qui nous a tout appris.</p>
+      </div>
+      <div class="motto-item">
+        <h2>Discipline</h2>
+        <p>Sortir une pièce à la fois, ne jamais sacrifier la qualité pour le volume, tenir le cap même quand personne ne regarde.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="people">
+    <div class="wrap">
+      <span class="eyebrow">Les personnes derrière</span>
+      <h2 style="font-family:'Archivo Black',sans-serif;font-size:1.8rem;margin-top:14px;margin-bottom:40px">La Mentale</h2>
+      <div class="people-grid">
+        <div class="person">
+          <div class="person-photo grain"></div>
+          <h3>Fondateur</h3>
+          <span>Direction créative &amp; production</span>
+        </div>
+        <div class="person">
+          <div class="person-photo grain"></div>
+          <h3>Co-fondateur</h3>
+          <span>Ateliers &amp; logistique</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

@@ -1,54 +1,196 @@
 <style>
-.announce{height:var(--hdr-bar);background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:500;letter-spacing:.02em;position:relative;text-align:center;padding:0 40px}
-.announce svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;position:absolute;top:50%;transform:translateY(-50%);opacity:.7}
-.announce .prev{left:16px}
-.announce .next{right:16px}
-
-.site-hdr{position:sticky;top:0;left:0;right:0;z-index:100;height:calc(var(--hdr) - var(--hdr-bar));display:flex;align-items:center;background:var(--bg);border-bottom:1px solid var(--border)}
-.hdr-in{width:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
-.nav{display:flex;align-items:center;gap:28px}
-.nav a{font-size:.82rem;font-weight:500;color:var(--text);transition:color .2s}
-.nav a:hover{color:var(--text-muted)}
-.logo{text-align:center;font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.05rem;letter-spacing:.02em;line-height:1.1}
-.logo span{display:block;font-size:.6rem;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:.28em;color:var(--text-muted);margin-top:2px}
-.hdr-actions{display:flex;align-items:center;justify-content:flex-end;gap:22px}
-.lang{display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--text)}
-.lang svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.site-hdr{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--hdr);
+  display:flex;align-items:center;
+  background:rgba(0,0,0,0);
+  border-bottom:1px solid transparent;
+  transition:background .3s var(--ease),border-color .3s var(--ease);
+}
+.site-hdr.scrolled{background:rgba(0,0,0,0.92);border-color:var(--border);backdrop-filter:blur(8px)}
+.hdr-in{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.hdr-logo{font-family:'Archivo Black',sans-serif;font-size:1rem;letter-spacing:.02em}
+.hdr-nav{display:none;align-items:center;gap:32px}
+.hdr-nav a{font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);transition:color .2s}
+.hdr-nav a:hover{color:var(--text-muted)}
+@media(min-width:900px){.hdr-nav{display:flex}}
+.hdr-actions{display:flex;align-items:center;gap:20px}
+.hdr-burger{display:flex;background:none;border:none;color:#fff;cursor:pointer;padding:0}
+@media(min-width:900px){.hdr-burger{display:none}}
 .cart-wrap{position:relative}
-.cart-badge{position:absolute;top:-7px;right:-9px;background:var(--accent);color:#fff;border-radius:999px;font-size:.62rem;font-weight:700;width:16px;height:16px;display:flex;align-items:center;justify-content:center}
-@media(max-width:900px){.nav{display:none}.hdr-in{grid-template-columns:1fr auto 1fr}}
+.cart-badge{position:absolute;top:-8px;right:-10px;background:#fff;color:#000;border-radius:999px;font-size:.6rem;font-weight:700;width:16px;height:16px;display:flex;align-items:center;justify-content:center}
+
+/* Mobile fullscreen menu */
+.mobile-menu{
+  position:fixed;inset:0;z-index:300;background:#000;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:24px 20px 40px;
+  transform:translateY(-100%);
+  transition:transform .4s var(--ease);
+}
+.mobile-menu.open{transform:translateY(0)}
+.mm-top{display:flex;align-items:center;justify-content:space-between}
+.mm-close{background:none;border:none;color:#fff;cursor:pointer}
+.mm-nav{display:flex;flex-direction:column;gap:0;margin-top:60px}
+.mm-nav a{
+  font-family:'Archivo Black',sans-serif;
+  font-size:2.2rem;text-transform:uppercase;
+  padding:14px 0;border-bottom:1px solid var(--border);
+  color:#fff;
+}
+.mm-tagline{margin-top:auto}
+
+/* Cart drawer */
+.cart-drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+.cart-drawer-backdrop.open{opacity:1;pointer-events:auto}
+.cart-drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);
+  background:#000;border-left:1px solid var(--border);z-index:401;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .4s var(--ease);
+}
+.cart-drawer.open{transform:translateX(0)}
+.cd-head{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid var(--border)}
+.cd-head h2{font-family:'Archivo Black',sans-serif;font-size:1rem;text-transform:uppercase}
+.cd-body{flex:1;overflow-y:auto;padding:20px 24px}
+.cd-line{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)}
+.cd-line-cover{width:64px;height:80px;background:var(--surface);flex-shrink:0}
+.cd-line-name{font-size:.86rem;font-weight:600}
+.cd-line-size{font-size:.76rem;color:var(--text-muted);margin-top:4px}
+.cd-line-qty{display:flex;align-items:center;gap:10px;margin-top:8px}
+.cd-line-qty button{background:none;border:1px solid var(--border);color:#fff;width:22px;height:22px;cursor:pointer;font-size:.8rem}
+.cd-line-price{margin-left:auto;font-weight:700;font-size:.86rem;white-space:nowrap}
+.cd-empty{color:var(--text-muted);font-size:.88rem;padding:40px 0;text-align:center}
+.cd-foot{padding:20px 24px;border-top:1px solid var(--border)}
+.cd-subtotal{display:flex;justify-content:space-between;font-weight:700;margin-bottom:16px}
 </style>
-<div class="announce">
-  <svg class="prev" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-  Livraison gratuite dès 250€ d'achat
-  <svg class="next" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-</div>
-<header class="site-hdr">
+
+<header class="site-hdr" id="site-header">
   <div class="wrap hdr-in">
-    <nav class="nav">
-      <a href="/">Accueil</a>
-      <a href="/catalogue">Catalogue</a>
+    <button type="button" class="hdr-burger" id="mm-open" aria-label="Ouvrir le menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.6"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <a href="/" class="hdr-logo">BD EMPIRES</a>
+
+    <nav class="hdr-nav">
+      <a href="/boutique">Boutique</a>
+      <a href="/lookbook">Lookbook</a>
+      <a href="/histoire">Histoire</a>
       <a href="/contact">Contact</a>
-      <a href="/">BD EMPIRES</a>
     </nav>
 
-    <a href="/" class="logo">BD EMPIRE<span>BY BD EMPIRE</span></a>
-
     <div class="hdr-actions">
-      <button type="button" class="lang">
-        Français
-        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <button type="button" class="icon-btn" aria-label="Rechercher">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </button>
-      <a href="/contact" class="icon-btn" aria-label="Mon compte">
+      <a href="/compte" class="icon-btn" aria-label="Mon compte">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </a>
-      <a href="/panier" class="icon-btn cart-wrap" aria-label="Panier">
+      <button type="button" class="icon-btn cart-wrap" id="cart-open" aria-label="Panier">
         <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        <span class="cart-badge">0</span>
-      </a>
+        <span class="cart-badge" id="cart-count">0</span>
+      </button>
     </div>
   </div>
 </header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mm-top">
+    <span class="hdr-logo">BD EMPIRES</span>
+    <button type="button" class="mm-close" id="mm-close" aria-label="Fermer le menu">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="1.6"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="mm-nav">
+    <a href="/boutique">Boutique</a>
+    <a href="/lookbook">Lookbook</a>
+    <a href="/histoire">Histoire</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="mm-tagline">
+    <span class="eyebrow">Work · Respect · Discipline</span>
+  </div>
+</div>
+
+<div class="cart-drawer-backdrop" id="cart-backdrop"></div>
+<aside class="cart-drawer" id="cart-drawer" aria-label="Panier">
+  <div class="cd-head">
+    <h2>Panier</h2>
+    <button type="button" class="mm-close" id="cart-close" aria-label="Fermer le panier">
+      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.6"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cd-body" id="cd-body"></div>
+  <div class="cd-foot">
+    <div class="cd-subtotal"><span>Sous-total</span><span id="cd-subtotal">0,00 €</span></div>
+    <a href="/panier" class="btn" style="width:100%">Voir le panier</a>
+  </div>
+</aside>
+
+<script>
+  import { getCart, cartCount, cartSubtotal, updateQty } from '../lib/cart';
+
+  const header = document.getElementById('site-header');
+  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const mm = document.getElementById('mobile-menu');
+  document.getElementById('mm-open')?.addEventListener('click', () => mm?.classList.add('open'));
+  document.getElementById('mm-close')?.addEventListener('click', () => mm?.classList.remove('open'));
+
+  const drawer = document.getElementById('cart-drawer');
+  const backdrop = document.getElementById('cart-backdrop');
+  function openCart() { drawer?.classList.add('open'); backdrop?.classList.add('open'); renderCart(); }
+  function closeCart() { drawer?.classList.remove('open'); backdrop?.classList.remove('open'); }
+  document.getElementById('cart-open')?.addEventListener('click', openCart);
+  document.getElementById('cart-close')?.addEventListener('click', closeCart);
+  backdrop?.addEventListener('click', closeCart);
+  (window as any).__bdOpenCart = openCart;
+
+  const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
+
+  function renderCount() {
+    const el = document.getElementById('cart-count');
+    if (el) el.textContent = String(cartCount());
+  }
+
+  function renderCart() {
+    const body = document.getElementById('cd-body');
+    const subtotalEl = document.getElementById('cd-subtotal');
+    if (!body || !subtotalEl) return;
+    const cart = getCart();
+    if (cart.length === 0) {
+      body.innerHTML = '<p class="cd-empty">Votre panier est vide.</p>';
+    } else {
+      body.innerHTML = cart.map((l) => `
+        <div class="cd-line" data-slug="${l.slug}" data-size="${l.size}">
+          <div class="cd-line-cover"></div>
+          <div>
+            <div class="cd-line-name">${l.name}</div>
+            <div class="cd-line-size">Taille ${l.size}</div>
+            <div class="cd-line-qty">
+              <button type="button" data-action="dec">−</button>
+              <span>${l.qty}</span>
+              <button type="button" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="cd-line-price">${fmt(l.price * l.qty)}</div>
+        </div>
+      `).join('');
+      body.querySelectorAll('[data-action]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const lineEl = (e.currentTarget as HTMLElement).closest('.cd-line') as HTMLElement;
+          const slug = lineEl.dataset.slug!;
+          const size = lineEl.dataset.size!;
+          const line = getCart().find((l) => l.slug === slug && l.size === size);
+          if (!line) return;
+          const delta = (e.currentTarget as HTMLElement).dataset.action === 'inc' ? 1 : -1;
+          updateQty(slug, size, line.qty + delta);
+        });
+      });
+    }
+    subtotalEl.textContent = fmt(cartSubtotal(cart));
+  }
+
+  window.addEventListener('cart:change', () => { renderCount(); renderCart(); });
+  renderCount();
+</script>

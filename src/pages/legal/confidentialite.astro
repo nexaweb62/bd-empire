@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+<BaseLayout title="Confidentialité — BD Empires" description="Politique de confidentialité BD Empires.">
+<style>
+.legal-page{padding:calc(var(--hdr) + 40px) 0 100px;max-width:720px}
+.legal-page h1{font-family:'Archivo Black',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:36px}
+.legal-page h2{font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:36px 0 12px}
+.legal-page p,.legal-page li{color:var(--text-muted);font-size:.9rem;line-height:1.75}
+.legal-page ul{padding-left:20px}
+</style>
+<Header />
+<main>
+  <section class="wrap legal-page">
+    <h1>Politique de confidentialité</h1>
+
+    <h2>Données collectées</h2>
+    <p>Nous collectons les données nécessaires au traitement de votre commande (nom, adresse, email, téléphone) et, si vous y consentez, votre email pour la liste d'attente des drops.</p>
+
+    <h2>Utilisation</h2>
+    <p>Vos données servent uniquement à traiter vos commandes, assurer le suivi client et, sur consentement, vous informer des prochains drops. Elles ne sont jamais vendues à des tiers.</p>
+
+    <h2>Conservation</h2>
+    <p>Les données de commande sont conservées le temps nécessaire aux obligations légales et comptables. Vous pouvez demander leur suppression à tout moment.</p>
+
+    <h2>Vos droits</h2>
+    <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour l'exercer, écrivez-nous via la <a href="/contact" style="color:#fff">page contact</a>.</p>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

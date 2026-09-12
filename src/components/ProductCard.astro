@@ -1,31 +1,56 @@
 ---
-interface Props {
-  title: string;
-  price: string;
-  oldPrice?: string;
-  badge?: string;
-}
-const { title, price, oldPrice, badge } = Astro.props;
+import type { Product } from '../data/products';
+import { totalStock } from '../data/products';
+
+interface Props { product: Product }
+const { product } = Astro.props;
+const available = product.variants.filter((v) => v.stock > 0);
+const outOfStock = !product.comingSoon && totalStock(product) === 0;
 ---
 <style>
-.p-card{position:relative;border:none;background:transparent}
-.p-cover{aspect-ratio:1/1;background:var(--panel);position:relative;overflow:hidden}
-.p-badge{position:absolute;top:12px;right:12px;background:var(--accent-2);color:#141311;font-size:.66rem;font-weight:600;padding:5px 11px;letter-spacing:.03em}
+.p-card{display:block}
+.p-cover{aspect-ratio:4/5;background:var(--surface);position:relative;overflow:hidden}
+.p-cover::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(255,255,255,.05),transparent 60%);
+  transition:opacity .3s var(--ease);
+}
+.p-card:hover .p-cover::before{opacity:0;background:linear-gradient(200deg,rgba(255,255,255,.09),transparent 55%)}
+.p-badges{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:6px;z-index:1}
+.p-sizes{
+  position:absolute;left:0;right:0;bottom:0;
+  display:flex;gap:6px;justify-content:center;flex-wrap:wrap;
+  padding:10px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .25s var(--ease),transform .25s var(--ease);
+}
+.p-card:hover .p-sizes{opacity:1;transform:translateY(0)}
+.p-size-pill{font-size:.66rem;font-weight:700;letter-spacing:.04em;color:#fff;border:1px solid rgba(255,255,255,.4);padding:3px 7px}
 .p-body{padding:14px 2px 0}
-.p-title{font-size:.9rem;font-weight:500;line-height:1.3}
-.p-price-row{display:flex;align-items:center;gap:8px;margin-top:6px}
-.p-price{font-weight:600;font-size:.9rem}
-.p-old{font-size:.82rem;color:var(--text-muted);text-decoration:line-through}
+.p-name{font-family:'Archivo Black',sans-serif;font-size:.82rem;text-transform:uppercase;letter-spacing:.015em}
+.p-price-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.p-price{font-weight:700;font-size:.88rem}
+.p-oos{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
 </style>
-<article class="p-card">
-  <div class="p-cover">
-    {badge && <span class="p-badge">{badge}</span>}
+<a href={product.comingSoon ? undefined : `/produit/${product.slug}`} class="p-card" aria-disabled={product.comingSoon}>
+  <div class="p-cover grain">
+    <div class="p-badges">
+      {product.limited && <span class="badge badge-limited">Série limitée</span>}
+      {product.comingSoon && <span class="badge">Bientôt disponible</span>}
+    </div>
+    {!product.comingSoon && (
+      <div class="p-sizes">
+        {product.variants.map((v) => (
+          <span class="p-size-pill" style={v.stock === 0 ? 'opacity:.35;text-decoration:line-through' : ''}>{v.size}</span>
+        ))}
+      </div>
+    )}
   </div>
   <div class="p-body">
-    <h3 class="p-title">{title}</h3>
+    <h3 class="p-name">{product.name}</h3>
     <div class="p-price-row">
-      <span class="p-price">{price}</span>
-      {oldPrice && <span class="p-old">{oldPrice}</span>}
+      <span class="p-price">{product.price.toFixed(2).replace('.', ',')} €</span>
     </div>
+    {outOfStock && <p class="p-oos">Rupture de stock</p>}
   </div>
-</article>
+</a>
