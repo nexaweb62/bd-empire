@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const francoBelge = [
+  { title: 'Les Naufragés de l\'Empire', author: 'A. Moreau', price: '15,90 €', category: 'Franco-belge' },
+  { title: 'Le Dernier Phare', author: 'C. Lenoir', price: '18,00 €', category: 'Franco-belge' },
+  { title: 'Rivage Noir T.4', author: 'S. Dubois', price: '14,50 €', category: 'Franco-belge' },
+  { title: 'La Ronde des Saisons', author: 'P. Fabre', price: '16,20 €', category: 'Franco-belge' },
+];
+const comics = [
+  { title: 'Iron Sentinel #12', author: 'D. Cross', price: '4,20 €', category: 'Comics' },
+  { title: 'Nightfall Saga Vol. 1', author: 'R. Blake', price: '22,00 €', category: 'Comics' },
+  { title: 'Crimson Vigil #3', author: 'M. Ortiz', price: '4,50 €', category: 'Comics' },
+  { title: 'Starborne Legacy', author: 'J. Wren', price: '19,90 €', category: 'Comics' },
+];
+const mangas = [
+  { title: 'Shadow Blade Vol. 3', author: 'K. Tanaka', price: '9,50 €', category: 'Manga' },
+  { title: 'Cerisier Éternel T.7', author: 'H. Sato', price: '7,80 €', category: 'Manga' },
+  { title: 'Ronin des Étoiles T.2', author: 'Y. Nakamura', price: '8,20 €', category: 'Manga' },
+  { title: 'Petits Démons T.1', author: 'A. Kimura', price: '7,50 €', category: 'Manga' },
+];
+---
+<BaseLayout title="Boutique — BD Empire" description="Parcourez notre catalogue de bandes dessinées, comics et mangas.">
+<style>
+.shop-hero{padding:calc(var(--hdr) + 50px) 0 40px;border-bottom:1px solid var(--border)}
+.shop-hero h1{font-size:clamp(2rem,4vw,3rem)}
+.shop-section{padding:64px 0;scroll-margin-top:calc(var(--hdr) + 20px)}
+.shop-section:not(:last-child){border-bottom:1px solid var(--border)}
+.section-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px}
+.section-h h2{font-size:1.6rem}
+.section-h span{color:var(--text-muted);font-size:.85rem}
+.p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:900px){.p-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.p-grid{grid-template-columns:1fr}}
+</style>
+<Header />
+<main>
+  <section class="shop-hero">
+    <div class="wrap">
+      <span class="label">Catalogue</span>
+      <h1 style="margin-top:14px">Toute la boutique</h1>
+    </div>
+  </section>
+
+  <section class="shop-section" id="franco-belge">
+    <div class="wrap">
+      <div class="section-h"><h2>Franco-belge</h2><span>{francoBelge.length} titres</span></div>
+      <div class="p-grid">{francoBelge.map((p) => <ProductCard {...p} />)}</div>
+    </div>
+  </section>
+
+  <section class="shop-section" id="comics">
+    <div class="wrap">
+      <div class="section-h"><h2>Comics</h2><span>{comics.length} titres</span></div>
+      <div class="p-grid">{comics.map((p) => <ProductCard {...p} />)}</div>
+    </div>
+  </section>
+
+  <section class="shop-section" id="mangas">
+    <div class="wrap">
+      <div class="section-h"><h2>Mangas</h2><span>{mangas.length} titres</span></div>
+      <div class="p-grid">{mangas.map((p) => <ProductCard {...p} />)}</div>
+    </div>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const nouveautes = [
+  { title: 'Les Naufragés de l\'Empire', author: 'A. Moreau', price: '15,90 €', category: 'Franco-belge', badge: 'Nouveau' },
+  { title: 'Shadow Blade Vol. 3', author: 'K. Tanaka', price: '9,50 €', category: 'Manga', badge: 'Nouveau' },
+  { title: 'Iron Sentinel #12', author: 'D. Cross', price: '4,20 €', category: 'Comics' },
+  { title: 'Le Dernier Phare', author: 'C. Lenoir', price: '18,00 €', category: 'Franco-belge' },
+];
+---
+<BaseLayout title="BD Empire — La boutique des passionnés de bande dessinée">
+<style>
+.hero{padding-top:calc(var(--hdr) + 90px);padding-bottom:90px;position:relative;overflow:hidden}
+.hero-halftone{position:absolute;inset:0;pointer-events:none}
+.hero-in{position:relative;text-align:center;max-width:700px;margin:0 auto}
+.hero h1{font-size:clamp(2.4rem,6vw,4.2rem)}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{color:var(--text-muted);margin-top:22px;font-size:1.05rem;line-height:1.6}
+.hero-cta{margin-top:34px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+.categories{padding:60px 0}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cat-card{padding:34px 24px;text-align:center}
+.cat-card h3{font-size:1.15rem;margin-top:10px}
+.cat-card p{color:var(--text-muted);font-size:.85rem;margin-top:6px}
+.cat-icon{font-size:2rem}
+@media(max-width:760px){.cat-grid{grid-template-columns:1fr}}
+
+.section-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px}
+.section-h h2{font-size:1.8rem}
+.section-h a{font-size:.85rem;font-weight:700;color:var(--accent-2)}
+.new-section{padding:60px 0 100px}
+.p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:900px){.p-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.p-grid{grid-template-columns:1fr}}
+</style>
+
+<Header />
+<main>
+  <section class="hero">
+    <div class="hero-halftone halftone"></div>
+    <div class="wrap hero-in">
+      <span class="label">Bienvenue chez BD Empire</span>
+      <h1 style="margin-top:16px">Toutes vos <em>histoires</em><br>préférées, en un clic.</h1>
+      <p>BD franco-belge, comics et mangas sélectionnés avec passion — livrés directement chez vous.</p>
+      <div class="hero-cta">
+        <a href="/boutique" class="btn">Découvrir la boutique</a>
+        <a href="/contact" class="btn btn-outline">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories">
+    <div class="wrap cat-grid">
+      <div class="card cat-card">
+        <div class="cat-icon">📖</div>
+        <h3>Franco-belge</h3>
+        <p>Albums classiques et séries incontournables</p>
+      </div>
+      <div class="card cat-card">
+        <div class="cat-icon">🦸</div>
+        <h3>Comics</h3>
+        <p>Super-héros, indépendants et éditions collector</p>
+      </div>
+      <div class="card cat-card">
+        <div class="cat-icon">⛩️</div>
+        <h3>Mangas</h3>
+        <p>Shonen, seinen, josei — les dernières sorties</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="new-section">
+    <div class="wrap">
+      <div class="section-h">
+        <h2>Nouveautés</h2>
+        <a href="/boutique">Voir toute la boutique →</a>
+      </div>
+      <div class="p-grid">
+        {nouveautes.map((p) => <ProductCard {...p} />)}
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+</BaseLayout>

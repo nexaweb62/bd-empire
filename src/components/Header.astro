@@ -1,0 +1,31 @@
+<style>
+.site-hdr{position:fixed;top:0;left:0;right:0;height:var(--hdr);z-index:100;display:flex;align-items:center;background:hsl(240 8% 6% / .82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.hdr-in{width:100%;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.3rem;font-weight:900;letter-spacing:-.02em}
+.logo em{font-style:normal;color:var(--accent)}
+.nav{display:flex;align-items:center;gap:34px}
+.nav a{font-size:.85rem;font-weight:600;color:var(--text-muted);transition:color .2s}
+.nav a:hover{color:var(--text)}
+.hdr-actions{display:flex;align-items:center;gap:18px}
+.cart-link{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.85rem}
+.cart-badge{background:var(--accent);color:#fff;border-radius:999px;font-size:.7rem;font-weight:800;padding:1px 7px}
+@media(max-width:820px){.nav{display:none}}
+</style>
+<header class="site-hdr">
+  <div class="wrap hdr-in">
+    <a href="/" class="logo">BD<em>Empire</em></a>
+    <nav class="nav">
+      <a href="/">Accueil</a>
+      <a href="/boutique">Boutique</a>
+      <a href="/boutique#franco-belge">Franco-belge</a>
+      <a href="/boutique#comics">Comics</a>
+      <a href="/boutique#mangas">Mangas</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="hdr-actions">
+      <a href="/panier" class="cart-link">
+        🛒 Panier <span class="cart-badge">0</span>
+      </a>
+    </div>
+  </div>
+</header>

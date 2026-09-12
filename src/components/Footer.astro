@@ -1,0 +1,44 @@
+<style>
+.site-ftr{border-top:1px solid var(--border);background:var(--bg-alt);padding:56px 0 28px}
+.ftr-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.ftr-logo{font-size:1.3rem;font-weight:900}
+.ftr-logo em{font-style:normal;color:var(--accent)}
+.ftr-tag{color:var(--text-muted);font-size:.85rem;margin-top:12px;max-width:320px;line-height:1.6}
+.ftr-title{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.ftr-links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.ftr-links a{font-size:.88rem;color:var(--text-muted);transition:color .2s}
+.ftr-links a:hover{color:var(--text)}
+.ftr-bottom{margin-top:44px;padding-top:22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:.78rem;color:var(--text-muted)}
+@media(max-width:700px){.ftr-grid{grid-template-columns:1fr}.ftr-bottom{flex-direction:column;gap:8px}}
+</style>
+<footer class="site-ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div>
+        <div class="ftr-logo">BD<em>Empire</em></div>
+        <p class="ftr-tag">La boutique en ligne pensée pour les passionnés de bande dessinée, comics et mangas.</p>
+      </div>
+      <div>
+        <div class="ftr-title">Boutique</div>
+        <ul class="ftr-links">
+          <li><a href="/boutique#franco-belge">Franco-belge</a></li>
+          <li><a href="/boutique#comics">Comics</a></li>
+          <li><a href="/boutique#mangas">Mangas</a></li>
+          <li><a href="/panier">Mon panier</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ftr-title">Infos</div>
+        <ul class="ftr-links">
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/">Livraison & retours</a></li>
+          <li><a href="/">Mentions légales</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-bottom">
+      <span>© 2026 BD Empire. Tous droits réservés.</span>
+      <span>Maquette réalisée par Nexa Web</span>
+    </div>
+  </div>
+</footer>
